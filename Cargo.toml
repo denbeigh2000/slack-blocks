@@ -5,3 +5,4 @@ name = "slack_blocks"
 version = "0.1.0"
 [dependencies]
 url = "2.1"
+chrono = { version = "0.4", features = ["serde"] }
