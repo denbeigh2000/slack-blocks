@@ -5,9 +5,9 @@ use serde::{Serialize, Serializer};
 
 #[derive(Serialize)]
 pub struct MultiSelectMenu {
-    pub action_id: String,
-    pub placeholder: Text,
-    pub options: MultiSelectMenuType,
+    action_id: String,
+    placeholder: Text,
+    options: MultiSelectMenuType,
 }
 
 impl MultiSelectMenu {
@@ -45,9 +45,9 @@ impl Serialize for MultiSelectMenuType {
 
 #[derive(Serialize)]
 pub struct StaticMultiMenu {
-    pub options: OptionNestingType,
+    options: OptionNestingType,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub initial_option: Option<Vec<OptionInput>>,
+    initial_option: Option<Vec<OptionInput>>,
 }
 
 impl StaticMultiMenu {

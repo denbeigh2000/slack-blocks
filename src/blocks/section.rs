@@ -5,10 +5,13 @@ use serde::{Serialize, Serializer};
 
 #[derive(Serialize)]
 pub struct Section {
-    pub text: Text,
-    pub block_id: Option<String>,
-    pub fields: Option<Vec<Text>>,
-    pub accessory: Option<SectionElement>,
+    text: Text,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    block_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    fields: Option<Vec<Text>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    accessory: Option<SectionElement>,
 }
 
 pub struct SectionBuilder {

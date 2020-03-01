@@ -7,10 +7,13 @@ use serde::{Serialize, Serializer};
 pub struct Input {
     label: Text,
     element: InputElement,
+    #[serde(skip_serializing_if = "Option::is_none")]
     block_id: Option<String>,
     // This must be plain-text, is there any way to enforce this at
     // compile-time?
+    #[serde(skip_serializing_if = "Option::is_none")]
     hint: Option<Text>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     optional: Option<bool>,
 }
 

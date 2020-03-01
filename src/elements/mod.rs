@@ -18,7 +18,9 @@ use url::Url;
 pub struct Checkboxes {
     action_id: String,
     options: Vec<OptionInput>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     initial_options: Option<Vec<OptionInput>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     confirm: Option<ConfirmationDialog>,
 }
 
@@ -85,10 +87,15 @@ impl Serialize for Image {
 #[derive(Serialize)]
 pub struct PlainTextInput {
     action_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     placeholder: Option<Text>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     initial_value: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     multiline: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     min_length: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     max_length: Option<u32>,
 }
 
@@ -152,10 +159,12 @@ impl PlainTextInputBuilder {
 
 #[derive(Serialize)]
 pub struct RadioButtonGroup {
-    pub action_id: String,
-    pub options: Vec<OptionInput>,
-    pub initial_option: Option<OptionInput>,
-    pub confirm: Option<ConfirmationDialog>,
+    action_id: String,
+    options: Vec<OptionInput>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    initial_option: Option<OptionInput>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    confirm: Option<ConfirmationDialog>,
 }
 
 pub struct RadioButtonGroupBuilder {

@@ -26,12 +26,12 @@ impl Serialize for ButtonStyle {
 }
 
 pub struct Button {
-    pub text: Text,
-    pub action_id: String,
-    pub url: Option<Url>,
-    pub value: Option<String>,
-    pub style: Option<ButtonStyle>,
-    pub confirm: Option<ConfirmationDialog>,
+    text: Text,
+    action_id: String,
+    url: Option<Url>,
+    value: Option<String>,
+    style: Option<ButtonStyle>,
+    confirm: Option<ConfirmationDialog>,
 }
 
 pub struct ButtonBuilder {
@@ -111,6 +111,7 @@ impl Serialize for Button {
         let mut map = serializer.serialize_map(Some(size))?;
 
         map.serialize_entry("action_id", &self.action_id)?;
+        map.serialize_entry("text", &self.text)?;
         if let Some(u) = &self.url {
             map.serialize_entry("url", u.as_str())?;
         }
