@@ -1,35 +1,14 @@
-// Reference: https://api.slack.com/reference/block-kit/composition-objects#text
+mod text;
+
+pub use crate::objects::text::{FormattingType, Text};
 
 pub use url::Url;
 use derive_builder::Builder;
 use serde::ser::SerializeMap;
 use serde::{Serialize, Serializer};
 
-pub enum FormattingType {
-    PlainText,
-    Markdown,
-}
+// Reference: https://api.slack.com/reference/block-kit/composition-objects#text
 
-impl Serialize for FormattingType {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        serializer.serialize_str(match self {
-            FormattingType::PlainText => "plain_text",
-            FormattingType::Markdown => "mrkdwn",
-        })
-    }
-}
-
-#[builder(setter(into), pattern = "owned")]
-#[derive(Builder, Serialize)]
-pub struct Text {
-    pub formatting_type: FormattingType,
-    pub text: String,
-    pub emoji: Option<bool>,
-    pub verbatim: Option<bool>,
-}
 
 #[builder(setter(into), pattern = "owned")]
 #[derive(Builder, Serialize)]
