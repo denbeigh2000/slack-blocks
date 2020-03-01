@@ -13,6 +13,17 @@ pub struct DatePicker {
     pub confirm: Option<ConfirmationDialog>,
 }
 
+impl DatePicker {
+    pub fn builder<S: Into<String>>(action_id: S) -> DatePickerBuilder {
+        DatePickerBuilder {
+            action_id: action_id.into(),
+            placeholder: None,
+            initial_date: None,
+            confirm: None,
+        }
+    }
+}
+
 pub struct DatePickerBuilder {
     action_id: String,
     placeholder: Option<Text>,
@@ -74,6 +85,7 @@ impl Serialize for DatePicker {
         }
 
         let mut map = serializer.serialize_map(Some(size))?;
+        map.serialize_entry("type", "datepicker")?;
         map.serialize_entry("action_id", &self.action_id)?;
         if let Some(p) = &self.placeholder {
             map.serialize_entry("placeholder", &p)?;
@@ -85,5 +97,20 @@ impl Serialize for DatePicker {
             map.serialize_entry("confirm", &c)?;
         }
         map.end()
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn basic() {
+        let picker = DatePicker::builder("action_id").build();
+        let json = serde_json::to_string(&picker).unwrap();
+        assert_eq!(
+            json.as_str(),
+            r#"{"type":"datepicker","action_id":"action_id"}"#
+        );
     }
 }
