@@ -1,5 +1,6 @@
 // Reference: https://api.slack.com/reference/block-kit/composition-objects#text
 
+use derive_builder::Builder;
 pub use url::Url;
 
 pub enum FormattingType {
@@ -7,32 +8,40 @@ pub enum FormattingType {
     Markdown,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct Text {
-    formatting_type: FormattingType,
-    text: String,
-    emoji: Option<bool>,
-    verbatim: Option<bool>,
+    pub formatting_type: FormattingType,
+    pub text: String,
+    pub emoji: Option<bool>,
+    pub verbatim: Option<bool>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ConfirmationDialog {
-    title: Text,
-    text: Text,
-    confirm: Text,
-    deny: Text,
+    pub title: Text,
+    pub text: Text,
+    pub confirm: Text,
+    pub deny: Text,
 }
 
 // TODO: This is only available in overflow menus, is there something we can
 // to do make this compile-time safe?
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct OptionInput {
-    text: Text,
-    value: String,
-    description: Option<Text>,
-    url: Option<Url>,
+    pub text: Text,
+    pub value: String,
+    pub description: Option<Text>,
+    pub url: Option<Url>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct OptionInputGroup {
-    label: Text,
-    options: Vec<OptionInput>,
+    pub label: Text,
+    pub options: Vec<OptionInput>,
 }
 
 pub enum Object {

@@ -1,17 +1,25 @@
 use crate::blocks::*;
 use crate::objects::Text;
 
+use derive_builder::Builder;
+
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct HomeTab {
-    blocks: Vec<HomeTabBlock>,
+    pub blocks: Vec<HomeTabBlock>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct Modal {
-    title: Text,
-    close: Option<Text>,
-    submit: Option<Text>,
-    blocks: Vec<ModalBlock>,
+    pub title: Text,
+    pub close: Option<Text>,
+    pub submit: Option<Text>,
+    pub blocks: Vec<ModalBlock>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct Message {}
 
 pub enum ModalBlock {

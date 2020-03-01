@@ -3,7 +3,7 @@
 use crate::objects::{ConfirmationDialog, OptionInput, OptionInputGroup, Text};
 
 pub use chrono::{Date, DateTime, Utc};
-
+use derive_builder::Builder;
 use url::Url;
 
 pub enum ButtonStyle {
@@ -12,60 +12,76 @@ pub enum ButtonStyle {
     Danger,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct Button {
-    text: Text,
-    action_id: String,
-    url: Option<Url>,
-    value: Option<String>,
-    style: Option<ButtonStyle>,
-    confirm: Option<ConfirmationDialog>,
+    pub text: Text,
+    pub action_id: String,
+    pub url: Option<Url>,
+    pub value: Option<String>,
+    pub style: Option<ButtonStyle>,
+    pub confirm: Option<ConfirmationDialog>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct Checkboxes {
-    action_id: String,
-    Options: Vec<OptionInput>,
-    initial_options: Option<Vec<OptionInput>>,
-    confirm: Option<ConfirmationDialog>,
+    pub action_id: String,
+    pub options: Vec<OptionInput>,
+    pub initial_options: Option<Vec<OptionInput>>,
+    pub confirm: Option<ConfirmationDialog>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct DatePicker {
-    action_id: String,
-    placeholder: Option<Text>,
+    pub action_id: String,
+    pub placeholder: Option<Text>,
     // TODO: Should we allow timezones here?
-    initial_date: Option<Date<Utc>>,
-    confirm: Option<ConfirmationDialog>,
+    pub initial_date: Option<Date<Utc>>,
+    pub confirm: Option<ConfirmationDialog>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct Image {
-    url: Url,
-    alt_text: String,
+    pub url: Url,
+    pub alt_text: String,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct OverflowMenu {
-    action_id: String,
-    options: Vec<OptionInput>,
-    confirm: Option<ConfirmationDialog>,
+    pub action_id: String,
+    pub options: Vec<OptionInput>,
+    pub confirm: Option<ConfirmationDialog>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct PlainTextInput {
-    action_id: String,
-    placeholder: Option<Text>,
-    initial_value: Option<String>,
-    multiline: Option<bool>,
-    min_length: Option<u32>,
-    max_length: Option<u32>,
+    pub action_id: String,
+    pub placeholder: Option<Text>,
+    pub initial_value: Option<String>,
+    pub multiline: Option<bool>,
+    pub min_length: Option<u32>,
+    pub max_length: Option<u32>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct RadioButtonGroup {
-    action_id: String,
-    options: Vec<OptionInput>,
-    initial_option: Option<OptionInput>,
-    confirm: Option<ConfirmationDialog>,
+    pub action_id: String,
+    pub options: Vec<OptionInput>,
+    pub initial_option: Option<OptionInput>,
+    pub confirm: Option<ConfirmationDialog>,
 }
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct SelectMenus {
-    action_id: String,
-    placeholder: Text,
-    options: SelectMenuType,
+    pub action_id: String,
+    pub placeholder: Text,
+    pub options: SelectMenuType,
 }
 
 pub enum OptionNestingType {
@@ -73,11 +89,13 @@ pub enum OptionNestingType {
     Groups(Vec<OptionInputGroup>),
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct MultiSelectMenu {
-    placeholder: Text,
-    action_id: String,
-    options: MultiSelectMenuType,
-    max_selected_items: u32,
+    pub placeholder: Text,
+    pub action_id: String,
+    pub options: MultiSelectMenuType,
+    pub max_selected_items: u32,
 }
 
 pub enum MultiSelectMenuType {
@@ -88,27 +106,37 @@ pub enum MultiSelectMenuType {
     Channels(ChannelMultiMenu),
 }
 
-pub struct StaticMultiMenu  {
-    options: OptionNestingType,
-    initial_options: Option<Vec<OptionInput>>,
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
+pub struct StaticMultiMenu {
+    pub options: OptionNestingType,
+    pub initial_options: Option<Vec<OptionInput>>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ExternalMultiMenu {
-    initial_options: Option<Vec<OptionInput>>,
-    min_query_length: Option<u32>,
+    pub initial_options: Option<Vec<OptionInput>>,
+    pub min_query_length: Option<u32>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct UserMultiMenu {
-    initial_users: Option<Vec<String>>,
+    pub initial_users: Option<Vec<String>>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ConversationMultiMenu {
-    initial_conversations: Option<Vec<String>>,
+    pub initial_conversations: Option<Vec<String>>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ChannelMultiMenu {
-    initial_channels: Option<Vec<String>>,
-    options: OptionNestingType,
+    pub initial_channels: Option<Vec<String>>,
+    pub options: OptionNestingType,
 }
 
 pub enum SelectMenuType {
@@ -119,25 +147,35 @@ pub enum SelectMenuType {
     Channels(ChannelMenu),
 }
 
-pub struct StaticMenu  {
-    option: OptionNestingType,
-    initial_option: Option<OptionInput>,
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
+pub struct StaticMenu {
+    pub option: OptionNestingType,
+    pub initial_option: Option<OptionInput>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ExternalMenu {
-    initial_option: Option<OptionInput>,
-    min_query_length: Option<u32>,
+    pub initial_option: Option<OptionInput>,
+    pub min_query_length: Option<u32>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct UserMenu {
-    initial_user: Option<String>,
+    pub initial_user: Option<String>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ConversationMenu {
-    initial_conversation: Option<String>,
+    pub initial_conversation: Option<String>,
 }
 
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct ChannelMenu {
-    initial_channel: Option<String>,
-    option: OptionNestingType,
+    pub initial_channel: Option<String>,
+    pub option: OptionNestingType,
 }

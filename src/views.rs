@@ -1,8 +1,12 @@
 use crate::surfaces::*;
 
+use derive_builder::Builder;
+
+#[builder(setter(into), pattern = "owned")]
+#[derive(Builder)]
 pub struct View<T: ViewType> {
-    payload: T,
-    private_metadata: Option<String>,
+    pub payload: T,
+    pub private_metadata: Option<String>,
 }
 
 pub trait ViewType {}
