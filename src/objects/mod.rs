@@ -4,18 +4,27 @@ mod option;
 pub use crate::objects::text::{FormattingType, Text, TextBuilder};
 pub use crate::objects::option::{OptionInput, OptionInputBuilder, OptionInputGroup};
 
-use derive_builder::Builder;
 use serde::Serialize;
 
 // Reference: https://api.slack.com/reference/block-kit/composition-objects#text
 
-#[builder(setter(into), pattern = "owned")]
-#[derive(Builder, Serialize)]
+#[derive(Serialize)]
 pub struct ConfirmationDialog {
-    pub title: Text,
-    pub text: Text,
-    pub confirm: Text,
-    pub deny: Text,
+    title: Text,
+    text: Text,
+    confirm: Text,
+    deny: Text,
+}
+
+impl ConfirmationDialog {
+    pub fn new(title: Text, text: Text, confirm: Text, deny: Text) -> Self {
+        Self {
+            title,
+            text,
+            confirm,
+            deny,
+        }
+    }
 }
 
 pub enum Object {
