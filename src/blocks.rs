@@ -1,45 +1,135 @@
-use crate::objects::Text;
 use crate::elements::*;
+use crate::objects::Text;
 
-use derive_builder::Builder;
 use serde::ser::SerializeMap;
 use serde::{Serialize, Serializer};
 use url::Url;
 
-#[builder(pattern = "owned")]
-#[derive(Builder, Serialize)]
+#[derive(Serialize)]
 pub struct Actions {
-    pub elements: Vec<ActionsElement>,
-    pub block_id: Option<String>,
+    elements: Vec<ActionsElement>,
+    block_id: Option<String>,
 }
 
-#[builder(pattern = "owned")]
-#[derive(Builder, Serialize)]
+impl Actions {
+    pub fn new(elements: Vec<ActionsElement>) -> Self {
+        Actions {
+            elements,
+            block_id: None,
+        }
+    }
+
+    pub fn new_with_id<S: Into<String>>(block_id: S, elements: Vec<ActionsElement>) -> Self {
+        Self {
+            elements,
+            block_id: Some(block_id.into()),
+        }
+    }
+}
+
+#[derive(Serialize)]
 pub struct Context {
     pub elements: Vec<ContextElement>,
     pub block_id: Option<String>,
 }
 
-#[builder(pattern = "owned")]
-#[derive(Builder, Serialize)]
+impl Context {
+    pub fn new(elements: Vec<ContextElement>) -> Self {
+        Context {
+            elements,
+            block_id: None,
+        }
+    }
+
+    pub fn new_with_id<S: Into<String>>(block_id: S, elements: Vec<ContextElement>) -> Self {
+        Self {
+            elements,
+            block_id: Some(block_id.into()),
+        }
+    }
+}
+
+#[derive(Default, Serialize)]
 pub struct Divider {
     pub block_id: Option<String>,
 }
 
-#[builder(pattern = "owned")]
-#[derive(Builder, Serialize)]
-pub struct File {
-    pub external_id: String,
-    pub block_id: Option<String>,
+impl Divider {
+    pub fn new() -> Self {
+        Divider::default()
+    }
+
+    pub fn new_with_id<S: Into<String>>(block_id: S) -> Self {
+        Self {
+            block_id: Some(block_id.into()),
+        }
+    }
 }
 
-#[builder(pattern = "owned")]
-#[derive(Builder)]
+#[derive(Serialize)]
+pub struct File {
+    external_id: String,
+    block_id: Option<String>,
+}
+
+impl File {
+    pub fn new<S: Into<String>>(external_id: S) -> Self {
+        File {
+            external_id: external_id.into(),
+            block_id: None,
+        }
+    }
+
+    pub fn new_with_id<S: Into<String>, T: Into<String>>(block_id: S, external_id: T) -> Self {
+        Self {
+            external_id: external_id.into(),
+            block_id: Some(block_id.into()),
+        }
+    }
+}
+
 pub struct Image {
-    pub image_url: Url,
-    pub alt_text: String,
-    pub title: Option<Text>,
-    pub block_id: Option<String>,
+    image_url: Url,
+    alt_text: String,
+    title: Option<Text>,
+    block_id: Option<String>,
+}
+
+pub struct ImageBuilder {
+    image_url: Url,
+    alt_text: String,
+    title: Option<Text>,
+    block_id: Option<String>,
+}
+
+impl ImageBuilder {
+    pub fn new<S: Into<String>>(url: Url, alt_text: S) -> ImageBuilder {
+        ImageBuilder {
+            image_url: url,
+            alt_text: alt_text.into(),
+            title: None,
+            block_id: None,
+        }
+    }
+
+    pub fn set_title(mut self, title: Text) -> Self {
+        self.title = Some(title);
+        self
+    }
+
+    pub fn set_block_id(mut self, block_id: String) -> Self {
+        self.block_id = Some(block_id);
+        self
+    }
+
+    pub fn build(self) -> Image {
+        Image {
+            image_url: self.image_url,
+            alt_text: self.alt_text,
+            title: self.title,
+            block_id: self.block_id,
+        }
+    }
 }
 
 impl Serialize for Image {
@@ -68,8 +158,7 @@ impl Serialize for Image {
     }
 }
 
-#[builder(pattern = "owned")]
-#[derive(Builder, Serialize)]
+#[derive(Serialize)]
 pub struct Input {
     pub label: Text,
     pub element: InputElement,
@@ -80,13 +169,99 @@ pub struct Input {
     pub optional: Option<bool>,
 }
 
-#[builder(pattern = "owned")]
-#[derive(Builder, Serialize)]
+pub struct InputBuilder {
+    label: Text,
+    element: InputElement,
+    block_id: Option<String>,
+    hint: Option<Text>,
+    optional: Option<bool>,
+}
+
+impl InputBuilder {
+    pub fn new(label: Text, element: InputElement) -> Self {
+        Self {
+            label,
+            element,
+            block_id: None,
+            hint: None,
+            optional: None,
+        }
+    }
+
+    pub fn set_block_id(mut self, block_id: String) -> Self {
+        self.block_id = Some(block_id);
+        self
+    }
+
+    pub fn set_hint(mut self, hint: Text) -> Self {
+        self.hint = Some(hint);
+        self
+    }
+
+    pub fn set_optional(mut self, optional: bool) -> Self {
+        self.optional = Some(optional);
+        self
+    }
+
+    pub fn build(self) -> Input {
+        Input {
+            label: self.label,
+            element: self.element,
+            block_id: self.block_id,
+            hint: self.hint,
+            optional: self.optional,
+        }
+    }
+}
+
+#[derive(Serialize)]
 pub struct Section {
     pub text: Text,
     pub block_id: Option<String>,
     pub fields: Option<Vec<Text>>,
     pub accessory: Option<SectionElement>,
+}
+
+pub struct SectionBuilder {
+    text: Text,
+    block_id: Option<String>,
+    fields: Option<Vec<Text>>,
+    accessory: Option<SectionElement>,
+}
+
+impl SectionBuilder {
+    pub fn new(text: Text) -> Self {
+        Self {
+            text,
+            block_id: None,
+            fields: None,
+            accessory: None,
+        }
+    }
+
+    pub fn set_block_id(mut self, block_id: String) -> Self {
+        self.block_id = Some(block_id);
+        self
+    }
+
+    pub fn set_fields(mut self, fields: Vec<Text>) -> Self {
+        self.fields = Some(fields);
+        self
+    }
+
+    pub fn set_accessory(mut self, accessory: SectionElement) -> Self {
+        self.accessory = Some(accessory);
+        self
+    }
+
+    pub fn build(self) -> Section {
+        Section {
+            text: self.text,
+            block_id: self.block_id,
+            fields: self.fields,
+            accessory: self.accessory,
+        }
+    }
 }
 
 impl Into<SectionElement> for Button {
@@ -303,7 +478,6 @@ impl Serialize for InputElement {
         }
     }
 }
-
 
 impl Into<ContextElement> for Image {
     fn into(self) -> ContextElement {
