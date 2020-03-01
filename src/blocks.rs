@@ -137,9 +137,9 @@ impl Into<SectionElement> for RadioButtonGroup {
     }
 }
 
-impl Into<SectionElement> for SelectMenus {
+impl Into<SectionElement> for SelectMenu {
     fn into(self) -> SectionElement {
-        SectionElement::SelectMenus(self)
+        SectionElement::SelectMenu(self)
     }
 }
 
@@ -152,7 +152,7 @@ pub enum SectionElement {
     OverflowMenu(OverflowMenu),
     PlainTextInput(PlainTextInput),
     RadioButtonGroup(RadioButtonGroup),
-    SelectMenus(SelectMenus),
+    SelectMenu(SelectMenu),
 }
 
 impl Serialize for SectionElement {
@@ -169,7 +169,7 @@ impl Serialize for SectionElement {
             SectionElement::OverflowMenu(e) => e.serialize(serializer),
             SectionElement::PlainTextInput(e) => e.serialize(serializer),
             SectionElement::RadioButtonGroup(e) => e.serialize(serializer),
-            SectionElement::SelectMenus(e) => e.serialize(serializer),
+            SectionElement::SelectMenu(e) => e.serialize(serializer),
         }
     }
 }
@@ -210,9 +210,9 @@ impl Into<ActionsElement> for RadioButtonGroup {
     }
 }
 
-impl Into<ActionsElement> for SelectMenus {
+impl Into<ActionsElement> for SelectMenu {
     fn into(self) -> ActionsElement {
-        ActionsElement::SelectMenus(self)
+        ActionsElement::SelectMenu(self)
     }
 }
 
@@ -223,7 +223,7 @@ pub enum ActionsElement {
     OverflowMenu(OverflowMenu),
     PlainTextInput(PlainTextInput),
     RadioButtonGroup(RadioButtonGroup),
-    SelectMenus(SelectMenus),
+    SelectMenu(SelectMenu),
 }
 
 impl Serialize for ActionsElement {
@@ -238,7 +238,7 @@ impl Serialize for ActionsElement {
             ActionsElement::OverflowMenu(e) => e.serialize(serializer),
             ActionsElement::PlainTextInput(e) => e.serialize(serializer),
             ActionsElement::RadioButtonGroup(e) => e.serialize(serializer),
-            ActionsElement::SelectMenus(e) => e.serialize(serializer),
+            ActionsElement::SelectMenu(e) => e.serialize(serializer),
         }
     }
 }
@@ -273,9 +273,9 @@ impl Into<InputElement> for RadioButtonGroup {
     }
 }
 
-impl Into<InputElement> for SelectMenus {
+impl Into<InputElement> for SelectMenu {
     fn into(self) -> InputElement {
-        InputElement::SelectMenus(self)
+        InputElement::SelectMenu(self)
     }
 }
 
@@ -285,7 +285,7 @@ pub enum InputElement {
     MultiSelectMenu(MultiSelectMenu),
     PlainTextInput(PlainTextInput),
     RadioButtonGroup(RadioButtonGroup),
-    SelectMenus(SelectMenus),
+    SelectMenu(SelectMenu),
 }
 
 impl Serialize for InputElement {
@@ -299,7 +299,7 @@ impl Serialize for InputElement {
             InputElement::MultiSelectMenu(e) => e.serialize(serializer),
             InputElement::PlainTextInput(e) => e.serialize(serializer),
             InputElement::RadioButtonGroup(e) => e.serialize(serializer),
-            InputElement::SelectMenus(e) => e.serialize(serializer),
+            InputElement::SelectMenu(e) => e.serialize(serializer),
         }
     }
 }
