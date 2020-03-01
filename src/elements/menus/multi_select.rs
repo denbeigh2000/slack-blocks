@@ -4,14 +4,14 @@ use crate::objects::{OptionInput, Text};
 use serde::{Serialize, Serializer};
 
 #[derive(Serialize)]
-pub struct SelectMultiMenu {
+pub struct MultiSelectMenu {
     pub action_id: String,
     pub placeholder: Text,
-    pub options: SelectMultiMenuType,
+    pub options: MultiSelectMenuType,
 }
 
-impl SelectMultiMenu {
-    pub fn new<S: Into<String>>(action_id: S, placeholder: Text, options: SelectMultiMenuType) -> Self {
+impl MultiSelectMenu {
+    pub fn new<S: Into<String>>(action_id: S, placeholder: Text, options: MultiSelectMenuType) -> Self {
         Self {
             action_id: action_id.into(),
             placeholder,
@@ -20,7 +20,7 @@ impl SelectMultiMenu {
     }
 }
 
-pub enum SelectMultiMenuType {
+pub enum MultiSelectMenuType {
     Static(StaticMultiMenu),
     External(ExternalMultiMenu),
     User(UserMultiMenu),
@@ -28,17 +28,17 @@ pub enum SelectMultiMenuType {
     Channel(ChannelMultiMenu),
 }
 
-impl Serialize for SelectMultiMenuType {
+impl Serialize for MultiSelectMenuType {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
         match self {
-            SelectMultiMenuType::Static(e) => e.serialize(serializer),
-            SelectMultiMenuType::External(e) => e.serialize(serializer),
-            SelectMultiMenuType::User(e) => e.serialize(serializer),
-            SelectMultiMenuType::Conversation(e) => e.serialize(serializer),
-            SelectMultiMenuType::Channel(e) => e.serialize(serializer),
+            MultiSelectMenuType::Static(e) => e.serialize(serializer),
+            MultiSelectMenuType::External(e) => e.serialize(serializer),
+            MultiSelectMenuType::User(e) => e.serialize(serializer),
+            MultiSelectMenuType::Conversation(e) => e.serialize(serializer),
+            MultiSelectMenuType::Channel(e) => e.serialize(serializer),
         }
     }
 }
@@ -66,9 +66,9 @@ impl StaticMultiMenu {
     }
 }
 
-impl Into<SelectMultiMenuType> for StaticMultiMenu {
-    fn into(self) -> SelectMultiMenuType {
-        SelectMultiMenuType::Static(self)
+impl Into<MultiSelectMenuType> for StaticMultiMenu {
+    fn into(self) -> MultiSelectMenuType {
+        MultiSelectMenuType::Static(self)
     }
 }
 
@@ -80,9 +80,9 @@ pub struct ExternalMultiMenu {
     min_query_length: Option<Vec<u32>>,
 }
 
-impl Into<SelectMultiMenuType> for ExternalMultiMenu {
-    fn into(self) -> SelectMultiMenuType {
-        SelectMultiMenuType::External(self)
+impl Into<MultiSelectMenuType> for ExternalMultiMenu {
+    fn into(self) -> MultiSelectMenuType {
+        MultiSelectMenuType::External(self)
     }
 }
 
@@ -121,9 +121,9 @@ pub struct UserMultiMenu {
     initial_user: Option<Vec<String>>,
 }
 
-impl Into<SelectMultiMenuType> for UserMultiMenu {
-    fn into(self) -> SelectMultiMenuType {
-        SelectMultiMenuType::User(self)
+impl Into<MultiSelectMenuType> for UserMultiMenu {
+    fn into(self) -> MultiSelectMenuType {
+        MultiSelectMenuType::User(self)
     }
 }
 
@@ -145,9 +145,9 @@ pub struct ConversationMultiMenu {
     initial_conversation: Option<Vec<String>>,
 }
 
-impl Into<SelectMultiMenuType> for ConversationMultiMenu {
-    fn into(self) -> SelectMultiMenuType {
-        SelectMultiMenuType::Conversation(self)
+impl Into<MultiSelectMenuType> for ConversationMultiMenu {
+    fn into(self) -> MultiSelectMenuType {
+        MultiSelectMenuType::Conversation(self)
     }
 }
 
@@ -170,9 +170,9 @@ pub struct ChannelMultiMenu {
     initial_channel: Option<Vec<String>>,
 }
 
-impl Into<SelectMultiMenuType> for ChannelMultiMenu {
-    fn into(self) -> SelectMultiMenuType {
-        SelectMultiMenuType::Channel(self)
+impl Into<MultiSelectMenuType> for ChannelMultiMenu {
+    fn into(self) -> MultiSelectMenuType {
+        MultiSelectMenuType::Channel(self)
     }
 }
 

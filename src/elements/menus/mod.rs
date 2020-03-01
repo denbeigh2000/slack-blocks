@@ -1,21 +1,13 @@
 mod multi_select;
+mod overflow;
 mod select;
 
+pub use overflow::{OverflowMenu, OverflowMenuBuilder};
 pub use multi_select::*;
 pub use select::*;
 
-use crate::objects::{ConfirmationDialog, OptionInput, OptionInputGroup};
-
-use derive_builder::Builder;
+use crate::objects::{OptionInput, OptionInputGroup};
 use serde::{Serialize, Serializer};
-
-#[builder(setter(into), pattern = "owned")]
-#[derive(Builder, Serialize)]
-pub struct OverflowMenu {
-    pub action_id: String,
-    pub options: Vec<OptionInput>,
-    pub confirm: Option<ConfirmationDialog>,
-}
 
 pub enum OptionNestingType {
     Flat(Vec<OptionInput>),
