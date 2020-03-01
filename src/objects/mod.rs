@@ -17,12 +17,17 @@ pub struct ConfirmationDialog {
 }
 
 impl ConfirmationDialog {
-    pub fn new(title: Text, text: Text, confirm: Text, deny: Text) -> Self {
+    pub fn new<S, T, U>(title_text: S, text: Text, confirm_text: T, deny_text: U) -> Self
+    where
+        S: Into<String>,
+        T: Into<String>,
+        U: Into<String>,
+    {
         Self {
-            title,
+            title: Text::builder(FormattingType::PlainText, title_text).build(),
             text,
-            confirm,
-            deny,
+            confirm: Text::builder(FormattingType::PlainText, confirm_text).build(),
+            deny: Text::builder(FormattingType::PlainText, deny_text).build(),
         }
     }
 }
@@ -32,4 +37,24 @@ pub enum Object {
     ConfirmationDialog(ConfirmationDialog),
     Option(OptionInput),
     OptionInputGroup(OptionInputGroup),
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn confirmation_dialog_basic() {
+        let dialog = ConfirmationDialog::new(
+            "Confirm?",
+            Text::builder(FormattingType::Markdown, "testing").build(),
+            "Yes",
+            "No",
+        );
+        let json = serde_json::to_string(&dialog).unwrap();
+        assert_eq!(
+            json.as_str(),
+            r#"{"title":{"type":"plain_text","text":"Confirm?"},"text":{"type":"mrkdwn","text":"testing"},"confirm":{"type":"plain_text","text":"Yes"},"deny":{"type":"plain_text","text":"No"}}"#
+        );
+    }
 }
