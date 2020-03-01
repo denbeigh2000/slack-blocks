@@ -4,7 +4,7 @@ mod datepicker;
 mod menus;
 
 pub use crate::elements::button::{Button, ButtonStyle};
-pub use crate::elements::datepicker::DatePicker;
+pub use crate::elements::datepicker::{DatePicker, DatePickerBuilder};
 pub use crate::elements::menus::*;
 use crate::objects::{ConfirmationDialog, OptionInput, Text};
 
