@@ -11,6 +11,12 @@ pub struct Text {
     verbatim: Option<bool>,
 }
 
+impl Text {
+    pub fn builder<S: Into<String>>(formatting_type: FormattingType, text: S) -> TextBuilder {
+        TextBuilder::new(formatting_type, text)
+    }
+}
+
 pub struct TextBuilder {
     formatting_type: FormattingType,
     text: String,
